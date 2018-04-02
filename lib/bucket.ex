@@ -1,8 +1,8 @@
 defmodule KV.Bucket do
   use GenServer
 
-  def start_link(args) do
-    GenServer.start_link(__MODULE__, :ok, args)
+  def start_link(worker_id) do
+    GenServer.start_link(__MODULE__, :ok, name: {:via, :global, worker_id})
   end
 
   def init(:ok) do
