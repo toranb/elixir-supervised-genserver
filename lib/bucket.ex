@@ -17,8 +17,17 @@ defmodule KV.Bucket do
     GenServer.cast(name, {:put, key, value})
   end
 
+  def delete(name, key) do
+    GenServer.cast(name, {:delete, key})
+  end
+
   def handle_cast({:put, key, value}, state) do
     state = Map.put(state, key, value)
+    {:noreply, state}
+  end
+
+  def handle_cast({:delete, key}, state) do
+    {_key, state} = Map.pop(state, key)
     {:noreply, state}
   end
 
