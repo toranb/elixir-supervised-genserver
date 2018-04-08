@@ -2,35 +2,28 @@
 
 iex -S mix run
 
-# get children of supervisor
+# inspect the pid of our first bucket process
 
-Supervisor.which_children(KV.Supervisor)
-
-# match to get the pid of children running
-
-[{id, pid, type, module}] = Supervisor.which_children(KV.Supervisor)
+pid = GenServer.whereis({:via, KV.Registry, {KV.Bucket, 1}})
 
 # put a value in the map
 
-KV.Bucket.put(pid, "name", "toran")
+KV.Bucket.put(1, "name", "toran")
 
 # get a value from the map
 
-KV.Bucket.get(pid, "name")
+KV.Bucket.get(1, "name")
 
 # kill the child process
 
 Process.exit(pid, :kill)
 
-# inspect to learn that the supervisor has a new child pid
+# inspect to learn that the first bucket worker has a new pid
 
-Supervisor.which_children(KV.Supervisor)
-
-# again, match to get the pid of children running
-
-[{id, pid, type, module}] = Supervisor.which_children(KV.Supervisor)
+GenServer.whereis({:via, KV.Registry, {KV.Bucket, 1}})
 
 # get a value from the map
-# note new pid does not reflect prev state
 
-KV.Bucket.get(pid, "name")
+KV.Bucket.get(1, "name")
+
+# note: the state remains thanks to KV.Store

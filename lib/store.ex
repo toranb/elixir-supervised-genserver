@@ -1,15 +1,15 @@
-defmodule KV.Bucket do
+defmodule KV.Store do
   use GenServer
 
-  def start_link(worker_id) do
-    GenServer.start_link(__MODULE__, :ok, name: via(worker_id))
+  def start_link(_opts) do
+    GenServer.start_link(__MODULE__, :ok, name: via(999))
   end
 
   defp via(key), do: {:via, KV.Registry, {__MODULE__, key}}
 
   @impl GenServer
   def init(:ok) do
-    {:ok, nil}
+    {:ok, %{}}
   end
 
   def get(name, key) do
@@ -22,13 +22,13 @@ defmodule KV.Bucket do
 
   @impl GenServer
   def handle_call({:get, key}, _timeout, state) do
-    result = KV.Store.get(999, key)
+    result = Map.get(state, key, :undefined)
     {:reply, result, state}
   end
 
   @impl GenServer
   def handle_cast({:put, key, value}, state) do
-    KV.Store.put(999, key, value)
-    {:noreply, nil, state}
+    state = Map.put(state, key, value)
+    {:noreply, state}
   end
 end

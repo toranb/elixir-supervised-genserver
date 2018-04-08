@@ -3,9 +3,11 @@ defmodule KV.Supervisor do
 
   use Supervisor
 
-  def start_link(opts) do
-    Supervisor.start_link(__MODULE__, :ok, opts)
+  def start_link(_opts) do
+    Supervisor.start_link(__MODULE__, :ok, name: via())
   end
+
+  defp via, do: {:via, KV.Registry, {__MODULE__, 888}}
 
   def init(:ok) do
     children = Enum.map(1..@pool_size, &worker_spec/1)
