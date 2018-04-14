@@ -50,8 +50,8 @@ defmodule KV.Registry do
   end
 
   def remove_pid(state, pid_to_remove) do
-    remove = fn {_key, pid} -> pid  != pid_to_remove end
-    Enum.filter(state, remove) |> Enum.into(%{})
+    omit = fn {_key, pid} -> pid  != pid_to_remove end
+    Enum.filter(state, omit) |> Enum.into(%{})
   end
 
 end

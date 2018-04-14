@@ -29,6 +29,6 @@ defmodule KV.Bucket do
   @impl GenServer
   def handle_cast({:put, key, value}, state) do
     KV.Store.put(999, key, value)
-    {:noreply, nil, state}
+    {:noreply, state}
   end
 end

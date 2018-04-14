@@ -26,4 +26,6 @@ GenServer.whereis({:via, KV.Registry, {KV.Bucket, 1}})
 
 KV.Bucket.get(1, "name")
 
-# note: the state remains thanks to KV.Store
+# To see what process information the Registry knows about
+
+:sys.get_state(:registry)
