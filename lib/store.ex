@@ -1,8 +1,8 @@
 defmodule KV.Store do
   use GenServer
 
-  def start_link(_opts) do
-    GenServer.start_link(__MODULE__, :ok, name: via(999))
+  def start_link(worker_id) do
+    GenServer.start_link(__MODULE__, :ok, name: via(worker_id))
   end
 
   defp via(key), do: {:via, KV.Registry, {__MODULE__, key}}

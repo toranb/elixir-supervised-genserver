@@ -1,4 +1,4 @@
-defmodule KV.Supervisor do
+defmodule KV.ServerSuper do
   @pool_size 3
 
   use Supervisor

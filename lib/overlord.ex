@@ -8,8 +8,8 @@ defmodule KV.Overlord do
   def init(:ok) do
     children = [
       KV.Registry,
-      KV.Store,
-      KV.Supervisor
+      KV.StoreSuper,
+      KV.ServerSuper
     ]
     Supervisor.init(children, strategy: :one_for_one)
   end
